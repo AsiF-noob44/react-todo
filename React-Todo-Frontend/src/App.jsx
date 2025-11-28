@@ -6,12 +6,17 @@ function App() {
   States -> 3
     1. todos -> array of todo objects
     2. isModalOpen -> boolean to track modal visibility
-    3. editingTodo-> null or todo object being edited
+    3. editingTab-> null or todo object being edited
   */
 
   const [todos, setTodos] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [editingTodo, setEditingTodo] = useState(null);
+  const [editingTab, setEditingTab] = useState(null);
+
+  const openAddModal = () => {
+    setIsModalOpen(true);
+    setEditingTab(null);
+  };
 
   return (
     <>
@@ -21,14 +26,22 @@ function App() {
 
           <div className="text-center ">
             <h1 className="text-3xl font-bold my-5">Todo App</h1>
-            <button className="px-4 py-2 my-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600  ">
+            <button
+              onClick={openAddModal}
+              className="px-4 py-2 my-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600  "
+            >
               Add Todo
             </button>
           </div>
           {/* End of Title & Submit Button */}
 
           {/* Modal Form */}
-          <ModalForm isOpen={isModalOpen} />
+          <ModalForm
+            isOpen={isModalOpen}
+            onClose={() => setIsModalOpen(false)}
+            initialTitle={editingTab ? editingTab.title : ""}
+            initialDescription={editingTab ? editingTab.description : ""}
+          />
           {/* End of Modal Form */}
         </div>
       </div>
